@@ -1,0 +1,67 @@
+<view class="container">
+  <view class="hero">
+    <view class="hero-title">录入今日销售</view>
+    <view class="hero-subtitle">{{dateKey}} · 数据会自动保存到本机</view>
+  </view>
+
+  <view class="card">
+    <view class="form-row">
+      <text class="label">销售额（万元）</text>
+      <input class="input" type="digit" value="{{salesWan}}" data-field="salesWan" bindinput="onInput" placeholder="例如 8.6" />
+    </view>
+    <view class="form-row">
+      <text class="label">黄金克重</text>
+      <input class="input" type="digit" value="{{goldGram}}" data-field="goldGram" bindinput="onInput" placeholder="例如 320.5" />
+    </view>
+    <view class="form-row">
+      <text class="label">今日门店金价（元/g）</text>
+      <input class="input" type="digit" value="{{goldPricePerGram}}" data-field="goldPricePerGram" bindinput="onInput" placeholder="按当天价签或系统价录入" />
+    </view>
+    <view class="form-row">
+      <text class="label">客单数</text>
+      <input class="input" type="number" value="{{orderCount}}" data-field="orderCount" bindinput="onInput" placeholder="例如 12" />
+    </view>
+    <view class="form-row">
+      <text class="label">件数</text>
+      <input class="input" type="number" value="{{pieceCount}}" data-field="pieceCount" bindinput="onInput" placeholder="例如 18" />
+    </view>
+    <view class="card-title">品类明细（可选）</view>
+    <view class="form-row">
+      <text class="label">黄金销售额（万元）</text>
+      <input class="input" type="digit" value="{{goldSalesWan}}" data-field="goldSalesWan" bindinput="onInput" />
+    </view>
+    <view class="form-row">
+      <text class="label">黄金件数</text>
+      <input class="input" type="number" value="{{goldPieceCount}}" data-field="goldPieceCount" bindinput="onInput" />
+    </view>
+    <view class="form-row">
+      <text class="label">彩金/K金销售额（万元）</text>
+      <input class="input" type="digit" value="{{kGoldSalesWan}}" data-field="kGoldSalesWan" bindinput="onInput" />
+    </view>
+    <view class="form-row">
+      <text class="label">彩金/K金件数</text>
+      <input class="input" type="number" value="{{kGoldPieceCount}}" data-field="kGoldPieceCount" bindinput="onInput" />
+    </view>
+    <view class="form-row">
+      <text class="label">钻石/镶嵌销售额（万元）</text>
+      <input class="input" type="digit" value="{{diamondSalesWan}}" data-field="diamondSalesWan" bindinput="onInput" />
+    </view>
+    <view class="form-row">
+      <text class="label">钻石/镶嵌件数</text>
+      <input class="input" type="number" value="{{diamondPieceCount}}" data-field="diamondPieceCount" bindinput="onInput" />
+    </view>
+    <view class="form-row">
+      <text class="label">其他销售额（万元）</text>
+      <input class="input" type="digit" value="{{otherSalesWan}}" data-field="otherSalesWan" bindinput="onInput" />
+    </view>
+    <view class="form-row">
+      <text class="label">其他件数</text>
+      <input class="input" type="number" value="{{otherPieceCount}}" data-field="otherPieceCount" bindinput="onInput" />
+    </view>
+    <view class="form-row">
+      <text class="label">备注</text>
+      <input class="input" value="{{note}}" data-field="note" bindinput="onInput" placeholder="例如 活动引流、老客复购" />
+    </view>
+    <button class="primary-btn" bindtap="save">保存今日数据</button>
+  </view>
+</view>

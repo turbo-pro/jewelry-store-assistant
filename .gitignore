@@ -1,0 +1,4 @@
+.DS_Store
+apps/.DS_Store
+.deploy/
+.idea/

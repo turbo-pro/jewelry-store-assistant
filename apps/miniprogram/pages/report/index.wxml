@@ -1,0 +1,13 @@
+<view class="container">
+  <view class="hero">
+    <view class="hero-title">微信群战报</view>
+    <view class="hero-subtitle">生成后可复制到门店群</view>
+  </view>
+
+  <view class="card">
+    <view class="card-title">今日战报</view>
+    <view class="report-box">{{reportText}}</view>
+    <button class="primary-btn" bindtap="copyReport">复制战报</button>
+    <button class="secondary-btn" bindtap="refresh">刷新数据</button>
+  </view>
+</view>

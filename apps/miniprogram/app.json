@@ -1,0 +1,28 @@
+{
+  "pages": [
+    "pages/dashboard/index",
+    "pages/record/index",
+    "pages/target/index",
+    "pages/report/index"
+  ],
+  "window": {
+    "navigationBarTitleText": "门店目标助手",
+    "navigationBarBackgroundColor": "#15110a",
+    "navigationBarTextStyle": "white",
+    "backgroundColor": "#f6f0e5"
+  },
+  "tabBar": {
+    "color": "#8a7860",
+    "selectedColor": "#b6832f",
+    "backgroundColor": "#fffaf1",
+    "borderStyle": "black",
+    "list": [
+      { "pagePath": "pages/dashboard/index", "text": "看板" },
+      { "pagePath": "pages/record/index", "text": "录入" },
+      { "pagePath": "pages/target/index", "text": "目标" },
+      { "pagePath": "pages/report/index", "text": "战报" }
+    ]
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json"
+}

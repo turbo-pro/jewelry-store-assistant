@@ -1,0 +1,328 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate, max-age=0" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <title>珠宝黄金门店目标助手</title>
+    <link rel="stylesheet" href="./styles.css?v=20260611-007" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <section class="hero">
+        <div>
+          <p class="eyebrow">Jewelry Store Target Desk</p>
+          <h1>珠宝黄金门店目标助手</h1>
+          <p class="hero-copy">把月目标或周目标拆到每天，录入实际销售，一键生成能发到门店群的战报。</p>
+        </div>
+        <div class="hero-stat">
+          <span id="heroRateLabel">本月完成率</span>
+          <strong id="heroRate">0%</strong>
+        </div>
+      </section>
+
+      <section class="layout">
+        <aside class="panel config-panel" data-mobile-pane="target">
+          <div class="section-title">
+            <span>01</span>
+            <h2>目标计算器</h2>
+          </div>
+
+          <label>
+            计算方式
+            <select id="calcMode">
+              <option value="month">按月计算</option>
+              <option value="week">按周计算</option>
+            </select>
+          </label>
+
+          <div class="two-col">
+            <label>
+              年份
+              <input id="targetYear" type="number" min="2024" max="2035" />
+            </label>
+            <label>
+              月份
+              <input id="targetMonth" type="number" min="1" max="12" />
+            </label>
+          </div>
+
+          <label class="month-field">
+            月销售目标（元）
+            <input id="totalTargetWan" type="number" min="0" step="0.01" placeholder="例如：1000000" />
+          </label>
+
+          <div class="two-col week-field">
+            <label>
+              周内任意日期（自动按周一开始）
+              <input id="weekStartDate" class="date-picker-input" type="text" inputmode="none" readonly placeholder="选择日期" />
+            </label>
+            <label>
+              周销售目标（元）
+              <input id="weeklyTargetWan" type="number" min="0" step="0.01" placeholder="例如：250000" />
+            </label>
+          </div>
+
+          <details class="optional-details target-options">
+            <summary>更多目标参数</summary>
+            <label>
+              门店名称
+              <input id="storeName" type="text" placeholder="例如：老凤祥人民路店" />
+            </label>
+
+            <div class="two-col">
+              <label>
+                周末倍率
+                <input id="weekendRatio" type="number" min="0.1" step="0.1" />
+              </label>
+              <label>
+                活动日倍率
+                <input id="holidayRatio" type="number" min="0.1" step="0.1" />
+              </label>
+            </div>
+
+            <label>
+              活动日/节假日（日期数字或完整日期，逗号分隔）
+              <input id="specialDaysText" type="text" placeholder="例如：1,2,2026-06-07" />
+            </label>
+            <button id="loadHolidayBtn" class="secondary-btn" type="button">加载本年法定节假日</button>
+          </details>
+
+          <button id="saveConfigBtn" class="primary-btn">保存并重新计算</button>
+          <p id="targetResultHint" class="target-result-hint">填写目标后，自动拆出今日目标。</p>
+        </aside>
+
+        <section class="workspace">
+          <div class="summary-grid" data-mobile-pane="target">
+            <article class="metric-card">
+              <span id="periodTargetLabel">月目标</span>
+              <strong id="periodTarget">0万</strong>
+            </article>
+            <article class="metric-card">
+              <span>已完成</span>
+              <strong id="periodActual">0万</strong>
+            </article>
+            <article class="metric-card">
+              <span id="periodGapLabel">月差额</span>
+              <strong id="periodGap">0万</strong>
+            </article>
+            <article class="metric-card">
+              <span>今日目标</span>
+              <strong id="todayTarget">0万</strong>
+            </article>
+          </div>
+
+          <section class="panel action-panel" data-mobile-pane="target">
+            <div class="section-title">
+              <span>!</span>
+              <h2>今日行动建议</h2>
+            </div>
+            <div class="action-grid">
+              <article>
+                <span>计划今日目标</span>
+                <strong id="todayAdjustedTarget">0万</strong>
+              </article>
+              <article>
+                <span>剩余目标</span>
+                <strong id="remainingTarget">0万</strong>
+              </article>
+              <article>
+                <span>建议成交</span>
+                <strong id="suggestedOrders">0单</strong>
+              </article>
+              <article>
+                <span>重点跟进</span>
+                <strong id="focusCategory">--</strong>
+              </article>
+              <article>
+                <span>今日门店金价</span>
+                <strong id="currentGoldPrice">--</strong>
+              </article>
+            </div>
+            <p id="estimateText" class="action-note"></p>
+            <p id="actionText" class="action-text"></p>
+          </section>
+
+          <section class="bottom-grid">
+            <div class="panel record-panel" data-mobile-pane="record">
+              <div class="section-title">
+                <span>02</span>
+                <h2>销售录入</h2>
+              </div>
+              <label>
+                <span id="periodCompletedInputLabel">本月已完成（元）</span>
+                <input id="periodCompletedWan" type="number" min="0" step="0.01" placeholder="可选，例如：320000" />
+              </label>
+              <label>
+                日期
+                <input id="recordDate" class="date-picker-input" type="text" inputmode="none" readonly placeholder="选择日期" />
+              </label>
+              <div class="two-col">
+                <label>
+                  销售额（元）
+                  <input id="salesWan" type="number" min="0" step="0.01" />
+                </label>
+                <label>
+                  黄金克重
+                  <input id="goldGram" type="number" min="0" step="0.1" />
+                </label>
+              </div>
+              <label>
+                今日门店金价（元/g）
+                <input id="goldPricePerGram" type="number" min="0" step="0.01" placeholder="按门店当天价签或系统价录入" />
+              </label>
+              <div class="two-col">
+                <label>
+                  客单数
+                  <input id="orderCount" type="number" min="0" step="1" />
+                </label>
+                <label>
+                  件数
+                  <input id="pieceCount" type="number" min="0" step="1" />
+                </label>
+              </div>
+              <details class="optional-details">
+                <summary>品类明细（可选）</summary>
+                <div class="category-grid">
+                  <label>
+                    黄金销售额（元）
+                    <input id="goldSalesWan" type="number" min="0" step="0.01" />
+                  </label>
+                  <label>
+                    黄金件数
+                    <input id="goldPieceCount" type="number" min="0" step="1" />
+                  </label>
+                  <label>
+                    彩金/K金销售额（元）
+                    <input id="kGoldSalesWan" type="number" min="0" step="0.01" />
+                  </label>
+                  <label>
+                    彩金/K金件数
+                    <input id="kGoldPieceCount" type="number" min="0" step="1" />
+                  </label>
+                  <label>
+                    钻石/镶嵌销售额（元）
+                    <input id="diamondSalesWan" type="number" min="0" step="0.01" />
+                  </label>
+                  <label>
+                    钻石/镶嵌件数
+                    <input id="diamondPieceCount" type="number" min="0" step="1" />
+                  </label>
+                  <label>
+                    其他销售额（元）
+                    <input id="otherSalesWan" type="number" min="0" step="0.01" />
+                  </label>
+                  <label>
+                    其他件数
+                    <input id="otherPieceCount" type="number" min="0" step="1" />
+                  </label>
+                </div>
+              </details>
+              <label>
+                备注
+                <input id="note" type="text" placeholder="例如：老客复购、活动引流" />
+              </label>
+              <button id="saveRecordBtn" class="primary-btn">保存销售数据</button>
+            </div>
+
+            <div class="panel report-panel" data-mobile-pane="report">
+              <div class="section-title">
+                <span>03</span>
+                <h2>微信群战报</h2>
+              </div>
+              <div class="template-tabs">
+                <button class="template-tab active" data-template="owner" type="button">老板版</button>
+                <button class="template-tab" data-template="team" type="button">门店群版</button>
+                <button class="template-tab" data-template="short" type="button">简短版</button>
+              </div>
+              <pre id="reportText"></pre>
+              <button id="copyReportBtn" class="secondary-btn">复制战报</button>
+            </div>
+          </section>
+
+          <section class="panel calendar-panel" data-mobile-pane="target">
+            <div class="section-title">
+              <span>04</span>
+              <h2 id="calendarTitle">每日目标日历</h2>
+            </div>
+            <div class="calendar-toolbar">
+              <div class="legend"><i class="workday"></i>工作日</div>
+              <div class="legend"><i class="weekend"></i>周末</div>
+              <div class="legend"><i class="special"></i>活动日</div>
+              <div class="legend"><i class="today"></i>今天</div>
+            </div>
+            <div id="calendar" class="calendar"></div>
+          </section>
+
+          <section class="panel gold-price-panel">
+            <div class="section-title">
+              <span>金</span>
+              <h2>金价调价口径</h2>
+            </div>
+            <div class="price-standard">
+              <article>
+                <span>国际金价</span>
+                <strong>美元/盎司</strong>
+                <p>常看 LBMA Gold Price 或 COMEX 黄金期货，反映国际黄金基准和预期。</p>
+              </article>
+              <article>
+                <span>国内基准</span>
+                <strong>元/克</strong>
+                <p>常看上海黄金交易所 Au99.99 等行情，更接近国内金料成本口径。</p>
+              </article>
+              <article>
+                <span>门店零售价</span>
+                <strong>元/克</strong>
+                <p>由品牌政策、金料成本、工费、活动折扣和库存策略共同决定，用于黄金类销售参考。</p>
+              </article>
+            </div>
+            <p class="action-note">调价建议：国际金价/金交所用于参考，经营看板优先使用每日录入的门店金价；全店行动建议以差额、客单价、成交单数和重点品类为主。</p>
+          </section>
+        </section>
+      </section>
+    </main>
+
+    <nav class="mobile-tabbar" aria-label="移动端功能切换">
+      <button class="mobile-tab active" data-mobile-tab="target" type="button">
+        <span>算</span>
+        目标
+      </button>
+      <button class="mobile-tab" data-mobile-tab="record" type="button">
+        <span>录</span>
+        录入
+      </button>
+      <button class="mobile-tab" data-mobile-tab="report" type="button">
+        <span>报</span>
+        战报
+      </button>
+    </nav>
+
+    <div id="datePicker" class="date-picker" hidden>
+      <div class="date-picker-card">
+        <div class="date-picker-header">
+          <button id="datePickerPrev" type="button" aria-label="上个月">&lt;</button>
+          <strong id="datePickerTitle">2026年06月</strong>
+          <button id="datePickerNext" type="button" aria-label="下个月">&gt;</button>
+        </div>
+        <div class="date-picker-weekdays">
+          <span>一</span>
+          <span>二</span>
+          <span>三</span>
+          <span>四</span>
+          <span>五</span>
+          <span>六</span>
+          <span>日</span>
+        </div>
+        <div id="datePickerDays" class="date-picker-days"></div>
+        <div class="date-picker-footer">
+          <button id="datePickerClear" type="button">清除</button>
+          <button id="datePickerToday" type="button">今天</button>
+        </div>
+      </div>
+    </div>
+
+    <script src="./app.js?v=20260611-007"></script>
+  </body>
+</html>

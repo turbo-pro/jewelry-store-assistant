@@ -1,0 +1,61 @@
+<view class="container">
+  <view class="hero">
+    <view class="hero-title">目标设置</view>
+    <view class="hero-subtitle">先把{{calcMode === 'week' ? '周目标' : '月目标'}}拆准，再让每天执行变简单</view>
+  </view>
+
+  <view class="card">
+    <view class="form-row">
+      <text class="label">门店名称</text>
+      <input class="input" value="{{storeName}}" data-field="storeName" bindinput="onInput" />
+    </view>
+    <view class="form-row">
+      <text class="label">年份</text>
+      <input class="input" type="number" value="{{year}}" data-field="year" bindinput="onInput" />
+    </view>
+    <view class="form-row">
+      <text class="label">月份</text>
+      <input class="input" type="number" value="{{month}}" data-field="month" bindinput="onInput" />
+    </view>
+    <view class="form-row">
+      <text class="label">计算方式</text>
+      <switch checked="{{calcMode === 'week'}}" bindchange="onModeChange" />
+      <text class="muted">{{calcMode === 'week' ? '按周计算' : '按月计算'}}</text>
+    </view>
+    <view class="form-row" wx:if="{{calcMode !== 'week'}}">
+      <text class="label">月销售目标（万元）</text>
+      <input class="input" type="digit" value="{{totalTargetWan}}" data-field="totalTargetWan" bindinput="onInput" />
+    </view>
+    <view class="form-row" wx:if="{{calcMode === 'week'}}">
+      <text class="label">周开始日期</text>
+      <picker mode="date" value="{{weekStartDate}}" bindchange="onWeekStartChange">
+        <view class="input">{{weekStartDate || '请选择'}}</view>
+      </picker>
+    </view>
+    <view class="form-row" wx:if="{{calcMode === 'week'}}">
+      <text class="label">周销售目标（万元）</text>
+      <input class="input" type="digit" value="{{weeklyTargetWan}}" data-field="weeklyTargetWan" bindinput="onInput" />
+    </view>
+    <view class="form-row">
+      <text class="label">周末倍率</text>
+      <input class="input" type="digit" value="{{weekendRatio}}" data-field="weekendRatio" bindinput="onInput" />
+    </view>
+    <view class="form-row">
+      <text class="label">活动日/节假日倍率</text>
+      <input class="input" type="digit" value="{{holidayRatio}}" data-field="holidayRatio" bindinput="onInput" />
+    </view>
+  </view>
+
+  <view class="card">
+    <view class="card-title">活动日/节假日</view>
+    <view class="muted">点选{{calcMode === 'week' ? '本周日期' : '日期'}}，活动日会按更高倍率拆目标。</view>
+    <view class="day-list">
+      <view wx:for="{{days}}" wx:key="dateKey" class="day-pill {{item.active ? 'active' : ''}}" data-day="{{item.day}}" data-key="{{item.dateKey}}" bindtap="toggleDay">
+        <text>{{item.label}}</text>
+        <text wx:if="{{item.subLabel}}" class="day-pill-sub">{{item.subLabel}}</text>
+      </view>
+    </view>
+    <button class="secondary-btn" bindtap="loadHolidayPreset">加载本年法定节假日</button>
+    <button class="primary-btn" bindtap="save">保存目标设置</button>
+  </view>
+</view>

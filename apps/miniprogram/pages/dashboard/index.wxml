@@ -1,0 +1,80 @@
+<view class="container">
+  <view class="hero">
+    <view class="hero-title">{{storeName}}</view>
+    <view class="hero-subtitle">{{todayLabel}} · {{todayPlan.type}} · 今日目标 {{todayTargetText}}</view>
+  </view>
+
+  <view class="card">
+    <view class="card-title">今日进度</view>
+    <view class="metric-grid">
+      <view class="metric">
+        <view class="metric-label">今日目标</view>
+        <view class="metric-value">{{todayTargetText}}</view>
+      </view>
+      <view class="metric">
+        <view class="metric-label">今日已完成</view>
+        <view class="metric-value">{{todayActualText}}</view>
+      </view>
+      <view class="metric">
+        <view class="metric-label">今日差额</view>
+        <view class="metric-value">{{todayGapText}}</view>
+      </view>
+      <view class="metric">
+        <view class="metric-label">今日完成率</view>
+        <view class="metric-value">{{todayRateText}}</view>
+      </view>
+    </view>
+    <button class="primary-btn" bindtap="goRecord">录入今日销售</button>
+  </view>
+
+  <view class="card">
+    <view class="card-title">今日行动建议</view>
+    <view class="metric-grid">
+      <view class="metric">
+        <view class="metric-label">调整后今日目标</view>
+        <view class="metric-value">{{adjustedTargetText}}</view>
+      </view>
+      <view class="metric">
+        <view class="metric-label">剩余目标</view>
+        <view class="metric-value">{{remainingTargetText}}</view>
+      </view>
+      <view class="metric">
+        <view class="metric-label">建议成交</view>
+        <view class="metric-value">{{suggestedOrderText}}</view>
+      </view>
+      <view class="metric">
+        <view class="metric-label">重点跟进</view>
+        <view class="metric-value">{{focusCategoryText}}</view>
+      </view>
+      <view class="metric">
+        <view class="metric-label">今日门店金价</view>
+        <view class="metric-value">{{todayGoldPriceText}}</view>
+      </view>
+    </view>
+    <view class="muted">{{estimateText}}</view>
+    <view class="muted">{{actionText}}</view>
+  </view>
+
+  <view class="card">
+    <view class="card-title">{{periodLabel}}累计</view>
+    <view class="metric-grid">
+      <view class="metric">
+        <view class="metric-label">{{periodTargetLabel}}</view>
+        <view class="metric-value">{{periodTargetText}}</view>
+      </view>
+      <view class="metric">
+        <view class="metric-label">已完成</view>
+        <view class="metric-value">{{periodActualText}}</view>
+      </view>
+      <view class="metric">
+        <view class="metric-label">{{periodGapLabel}}</view>
+        <view class="metric-value">{{periodGapText}}</view>
+      </view>
+      <view class="metric">
+        <view class="metric-label">{{periodLabel}}完成率</view>
+        <view class="metric-value">{{periodRateText}}</view>
+      </view>
+    </view>
+    <view wx:if="{{categoryText}}" class="muted">品类累计：{{categoryText}}</view>
+  </view>
+</view>
