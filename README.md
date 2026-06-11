@@ -26,3 +26,4 @@ docs/            产品和数据设计文档
 ## 本地打开
 
 直接用浏览器打开 `apps/web/index.html`。当前版本使用浏览器本地存储，不依赖后端。
+<img width="544" height="4443" alt="image" src="https://github.com/user-attachments/assets/16c2e339-b7fc-46e8-ae66-474bb46c3d52" />
